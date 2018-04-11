@@ -23,11 +23,13 @@ namespace MedicalWorm.Core.Models
 
         public string PrintBadge()
         {
-            return $"{Name}, {LicenseObtained.MedicalLicenseFormatted2()} ({EmployeeId})";
+            return $"{Name}, {LicenseObtained.MedicalLicenseFormatted()} ({EmployeeId})";
         }
 
         public decimal CalculatePay()
         {
+            var nameOnCheck = $"{Name}, {LicenseObtained.MedicalLicenseFormatted(true, false)}";
+
             return HoursWorked * _payRate;
         }
 

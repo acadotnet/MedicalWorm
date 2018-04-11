@@ -5,14 +5,14 @@ namespace MedicalWorm.Core.Enums
 {
     public static class EnumExtensions
     {
-        public static string MedicalLicenseFormatted2(this MedicalLicense license, bool isUpperCase = true, bool usePeriods = true)
+        public static string MedicalLicenseFormatted(this MedicalLicense license, bool isUpperCase = true, bool usePeriods = true)
         {       
             var abbrev = string.Empty;
             switch (license)
             {
                 case MedicalLicense.DoctorofMedicine:
                     abbrev = usePeriods 
-                        ? "M.D." 
+                        ? "M.D."
                         : "MD";
                     break;
 
