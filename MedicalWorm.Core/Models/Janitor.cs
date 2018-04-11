@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Configuration;
 using MedicalWorm.Core.Interfaces;
 
 namespace MedicalWorm.Core.Models
 {
     public class Janitor : IEmployee
     {
+        private static decimal _minWage = Convert.ToDecimal(ConfigurationManager.AppSettings["MinWage"]);
+
         public string ExternalAgencyId { get; set; }
 
         public string ExternalAgencyName { get; set; }
@@ -15,17 +18,12 @@ namespace MedicalWorm.Core.Models
 
         public string PrintBadge()
         {
-            //TODO: Print a temporary badge with name and agency name
-
-            throw new NotImplementedException();
+            return $"{Name} ({ExternalAgencyName})";
         }
 
         public decimal CalculatePay()
         {
-            //TODO: Calculate pay using minimum wage
-            //TODO: Store current minimum wage in app.config, pull value from there
-
-            throw new NotImplementedException();
+            return HoursWorked * _minWage;
         }
     }
 }

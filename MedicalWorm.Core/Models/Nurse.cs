@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using MedicalWorm.Core.Enums;
 using MedicalWorm.Core.Interfaces;
+using System.Linq;
 
 namespace MedicalWorm.Core.Models
 {
     public class Nurse : EmployeeBase, IEmployee
     {
-        //TODO: Add constant for pay rate used in CalculatePay()
+        private const decimal PAY_RATE = 150;
 
         public bool IsRegisteredNurse { get; set; }
         public List<NursingCertification> Certifications { get; set; }
@@ -14,18 +15,23 @@ namespace MedicalWorm.Core.Models
 
         public string PrintBadge()
         {
-            //TODO: If IsRegisteredNurse, prepend RN- to every Certification
-            //TODO: Include comma seperated list of floors in badge
-            var commaSeperated = string.Join(", ", Certifications);
+            var certsFormatted = string.Join(", ", Certifications.Select(c => c.NursingCertificationFormatted(IsRegisteredNurse)).ToList());
+            var floorsFormatted = string.Join(", ", FloorsWorked);
 
-            return $"{Name}, {commaSeperated} ({EmployeeId})";
+            return $"{Name}, {certsFormatted} ({floorsFormatted}) ({EmployeeId})";
         }
 
         public decimal CalculatePay()
         {
-            //TODO: Nurse should be paid "time and a half" for anything over 40hrs
+            if (HoursWorked > 40)
+            {
+                var extraTime = HoursWorked - 40;
+                var extraRate = PAY_RATE * 1.5M;
 
-            return HoursWorked * 150;
+                return 40 * PAY_RATE + extraTime * extraRate;
+            }
+
+            return HoursWorked * PAY_RATE;
         }
 
         public override void TakeVacation(int numberOfDays)

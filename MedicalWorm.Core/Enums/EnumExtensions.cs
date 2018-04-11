@@ -3,8 +3,6 @@ using System.Linq;
 
 namespace MedicalWorm.Core.Enums
 {
-    //TODO: Add extension method for NursingCertification, see notes in Nurse.PrintBadge()
-
     public static class EnumExtensions
     {
         public static string MedicalLicenseFormatted2(this MedicalLicense license, bool isUpperCase = true, bool usePeriods = true)
@@ -28,6 +26,13 @@ namespace MedicalWorm.Core.Enums
             return isUpperCase
                 ? abbrev.ToUpper()
                 : abbrev.ToLower();
+        }
+
+        public static string NursingCertificationFormatted(this NursingCertification certification, bool isRegistered)
+        {
+            return isRegistered
+                ? $"RN-{certification}"
+                : certification.ToString();
         }
     }
 }

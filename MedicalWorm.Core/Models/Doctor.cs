@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MedicalWorm.Core.Enums;
 using MedicalWorm.Core.Interfaces;
+using System.Linq;
 
 namespace MedicalWorm.Core.Models
 {
@@ -14,8 +15,9 @@ namespace MedicalWorm.Core.Models
 
         public List<Nurse> Nurses { get; set; }
 
-        // TODO: Update logic here to just return the first Nurse that is an RN. if no RN, then just return the nurse with the least amount of hours worked
-        public Nurse PrimaryNurse { get; set; }
+        public Nurse PrimaryNurse => Nurses.Any(n => n.IsRegisteredNurse) 
+            ? Nurses.Where(n => n.IsRegisteredNurse).FirstOrDefault() 
+            : Nurses.OrderBy(n => n.HoursWorked).FirstOrDefault();
 
         public Guid PrescriptionAuthorizationId { get; set; }
 
